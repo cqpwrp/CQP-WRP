@@ -1,13 +1,15 @@
 package com.honda.am.cqp.controller;
 
-import java.time.LocalDateTime;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -18,21 +20,18 @@ import com.honda.am.cqp.util.LoggerInfo;
 public class LoggerController{
 	static Logger logger = LogManager.getLogger(LoggerController.class.getName());
 	
+	@Value("${common.serviceurl}")
+	private String commonUrl;
 
 	@ExceptionHandler(value = Exception.class)
-	public ResponseEntity<LoggerInfo> apiExceptionHandle(Exception ex, WebRequest request) {
-		logger.info("Exception Handler for: " + request.getDescription(true));
-		logger.error("Failed by: " + ex.toString().replaceAll("'",""));
+	public ResponseEntity<RestTemplate> apiExceptionHandle(Exception ex, WebRequest request) {
 		
-		LoggerInfo error = new LoggerInfo("NOT_FOUND_ERROR", ex.getMessage());
+		RestTemplate restTemplate = new RestTemplate();
+		StackTraceElement[] elements = ex.getStackTrace();
+		HttpEntity<LoggerInfo> req = new HttpEntity<>(new LoggerInfo("Failed by: " + ex.toString().replaceAll("'",""),"Exception Handler for: " + request.getDescription(true)+" | "+elements[0].toString()));
+		restTemplate.exchange(commonUrl, HttpMethod.POST, req, LoggerInfo.class);
 
-		error.setTimeStamp(LocalDateTime.now());
-
-		error.setStatus((HttpStatus.NOT_FOUND.value()));
-
-		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(restTemplate, HttpStatus.NOT_FOUND);
 
 	}
-
-
 }

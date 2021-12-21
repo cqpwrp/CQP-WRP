@@ -7,7 +7,7 @@
 		</Console>
 		<JDBC name="Database" tableName="logs">
 			<ConnectionFactory
-				class="com.honda.am.cqp.ConnectionFactory" method="getConnection" />
+				class="com.honda.am.common.ConnectionFactory" method="getConnection" />
 			<Column name="DATED" isEventTimestamp="true" />
 			<Column name="LOGGER" pattern="%logger" />
 			<Column name="LEVEL" pattern="%level" />
@@ -16,7 +16,7 @@
 	</Appenders>
 
 	<Loggers>
-		<Logger name="com.honda.am.cqp" level="debug"
+		<Logger name="com.honda.am.common" level="debug"
 			additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="Database" />
