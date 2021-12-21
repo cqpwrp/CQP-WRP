@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MMM-dd hh:mm:ss a } %level %c - %m %n" />
+		</Console>
+		<JDBC name="MySQLDatabase" tableName="logs">
+			<ConnectionFactory
+				class="com.honda.am.cqp.ConnectionFactory" method="getConnection" />
+			<Column name="DATED" isEventTimestamp="true" />
+			<Column name="LOGGER" pattern="%logger" />
+			<Column name="LEVEL" pattern="%level" />
+			<Column name="MESSAGE" pattern="%m" />
+		</JDBC>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.honda.am.cqp" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MySQLDatabase" />
+		</Logger>
+	</Loggers>
+
+</Configuration>
