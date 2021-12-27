@@ -17,7 +17,7 @@ import com.honda.am.cqp.dto.TPLDto;
 import com.honda.am.cqp.dto.UserDto;
 import com.honda.am.cqp.dto.VoucherCostDto;
 import com.honda.am.cqp.dto.VoucherDto;
-import com.honda.am.cqp.service.AlertsExportService;
+import com.honda.am.cqp.service.AlertsExportsService;
 import com.honda.am.cqp.util.CallInExcelExporterUtil;
 import com.honda.am.cqp.util.TPLExcelExporterUtil;
 import com.honda.am.cqp.util.UserExcelExporterUtil;
@@ -30,7 +30,7 @@ import com.honda.am.cqp.util.VoucherExcelExporterUtil;
 public class AlertsExportController {
 
 	@Autowired
-	private AlertsExportService alertsExportService;
+	private AlertsExportsService alertsExportService;
 
 	@GetMapping("Voucher")
 	public void exportVoucherToExcel(HttpServletResponse response) throws IOException {

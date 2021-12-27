@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.honda.am.cqp.service;
+package com.honda.am.cqp.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,13 +14,10 @@ import com.honda.am.cqp.dto.AlertDto;
 import com.honda.am.cqp.model.TblMESSAGE_CENTER;
 import com.honda.am.cqp.repository.AlertRepository;
 import com.honda.am.cqp.repository.MessageCenterRepository;
+import com.honda.am.cqp.service.AlertsService;
 
-/**
- * @author Shrirang Kadale
- *
- */
 @Service
-public class AlertsService {
+public class AlertsServiceImpl implements AlertsService {
 
 	@Autowired
 	private MessageCenterRepository messageRepository;
@@ -28,6 +25,7 @@ public class AlertsService {
 	@Autowired
 	AlertRepository alertRepository;
 
+	@Override
 	public List<TblMESSAGE_CENTER> getMessage() {
 		try {
 			List<Object[]> inbox = messageRepository.getMessage();
@@ -55,6 +53,7 @@ public class AlertsService {
 		}
 	}
 
+	@Override
 	public List<AlertDto> getAlerts() {
 		List<Object[]> alerts = alertRepository.getAlerts();
 		List<AlertDto> list = new ArrayList<>();
