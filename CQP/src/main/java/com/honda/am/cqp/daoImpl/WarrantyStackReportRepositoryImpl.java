@@ -1,4 +1,4 @@
-package com.honda.am.cqp.repository;
+package com.honda.am.cqp.daoImpl;
 
 import java.util.List;
 
@@ -8,8 +8,10 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import com.honda.am.cqp.dao.WarrantyStackReportRepository;
+
 @Repository
-public class WarrantyStackReportRepository {
+public class WarrantyStackReportRepositoryImpl implements WarrantyStackReportRepository{
 
 	@PersistenceContext
 	EntityManager em;

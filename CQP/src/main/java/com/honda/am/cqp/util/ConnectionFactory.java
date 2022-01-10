@@ -1,4 +1,4 @@
-package com.honda.am.cqp;
+package com.honda.am.cqp.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -18,6 +18,22 @@ public class VoucherCostDto {
 
 	}
 
+	public VoucherCostDto(String suppNo, String suppName, String shortPartNo, String partNo, String modelNames,
+			String modelYears, BigDecimal fobAmt, BigDecimal dealerNetAmt, BigDecimal flatRateAmt) {
+		
+		this.suppNo = suppNo;
+		this.suppName = suppName;
+		this.shortPartNo = shortPartNo;
+		this.partNo = partNo;
+		this.modelNames = modelNames;
+		this.modelYears = modelYears;
+		this.fobAmt = fobAmt;
+		this.dealerNetAmt = dealerNetAmt;
+		this.flatRateAmt = flatRateAmt;
+	}
+
+
+
 	public String getSuppNo() {
 		return suppNo;
 	}

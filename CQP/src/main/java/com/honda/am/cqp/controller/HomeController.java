@@ -1,7 +1,7 @@
-
 package com.honda.am.cqp.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.honda.am.cqp.dto.AlertDto;
 import com.honda.am.cqp.dto.CallInDto;
 import com.honda.am.cqp.dto.TPLDto;
 import com.honda.am.cqp.dto.UserDto;
 import com.honda.am.cqp.dto.VoucherCostDto;
 import com.honda.am.cqp.dto.VoucherDto;
-import com.honda.am.cqp.service.AlertsExportsService;
+import com.honda.am.cqp.model.TblMESSAGE_CENTER;
+import com.honda.am.cqp.service.HomeService;
 import com.honda.am.cqp.util.CallInExcelExporterUtil;
 import com.honda.am.cqp.util.TPLExcelExporterUtil;
 import com.honda.am.cqp.util.UserExcelExporterUtil;
@@ -26,13 +28,26 @@ import com.honda.am.cqp.util.VoucherExcelExporterUtil;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/alerts/export/excel/")
-public class AlertsExportController {
+@RequestMapping("/api/alerts")
+public class HomeController {
 
 	@Autowired
-	private AlertsExportsService alertsExportService;
+	private HomeService homeService;
+	
+	@GetMapping("/inbox")
+	public List<TblMESSAGE_CENTER> getMessage() {
+		List<TblMESSAGE_CENTER> list = homeService.getMessage();
+		System.out.println(list);
+		return list;
+	}
 
-	@GetMapping("Voucher")
+	@GetMapping("/data")
+	public List<AlertDto> getAlerts() throws IOException, SQLException {
+		System.out.println("In controller");
+		return homeService.getAlerts();
+	}
+	
+	@GetMapping("/export/excel/Voucher")
 	public void exportVoucherToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 
@@ -40,14 +55,14 @@ public class AlertsExportController {
 		String headerValue = "attachment; filename=Voucher_Sheet.xlsx";
 		response.setHeader(headerKey, headerValue);
 
-		List<VoucherDto> list = alertsExportService.getVoucherDetails();
+		List<VoucherDto> list = homeService.getVoucherDetails();
 		System.out.println("Voucher ===== " + list.toString());
 
 		VoucherExcelExporterUtil excelExporter = new VoucherExcelExporterUtil(list);
 		excelExporter.export(response);
 	}
 
-	@GetMapping("User")
+	@GetMapping("/export/excel/User")
 	public void exportUserToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 
@@ -55,7 +70,7 @@ public class AlertsExportController {
 		String headerValue = "attachment; filename=Users_Sheet.xlsx";
 		response.setHeader(headerKey, headerValue);
 
-		List<UserDto> list = alertsExportService.getUserDetails();
+		List<UserDto> list = homeService.getUserDetails();
 
 		System.out.println("UserDto ===== " + list.toString());
 
@@ -63,7 +78,7 @@ public class AlertsExportController {
 		excelExporter.export(response);
 	}
 
-	@GetMapping("CallIn")
+	@GetMapping("/export/excel/CallIn")
 	public void exportToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 
@@ -71,7 +86,7 @@ public class AlertsExportController {
 		String headerValue = "attachment; filename=Call_In_Sheet.xlsx";
 		response.setHeader(headerKey, headerValue);
 
-		List<CallInDto> list = alertsExportService.getCallInDetails();
+		List<CallInDto> list = homeService.getCallInDetails();
 
 		System.out.println("callInDto ===== " + list);
 
@@ -80,7 +95,7 @@ public class AlertsExportController {
 		excelExporter.export(response);
 	}
 
-	@GetMapping("VoucherCost")
+	@GetMapping("/export/excel/VoucherCost")
 	public void exportVoucherCostToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 
@@ -88,7 +103,7 @@ public class AlertsExportController {
 		String headerValue = "attachment; filename=Voucher_Cost_Sheet.xlsx";
 		response.setHeader(headerKey, headerValue);
 
-		List<VoucherCostDto> list = alertsExportService.getVoucherCostAlerts();
+		List<VoucherCostDto> list = homeService.getVoucherCostAlerts();
 
 		System.out.println("VoucherCostDto ===== " + list);
 
@@ -97,7 +112,7 @@ public class AlertsExportController {
 		excelExporter.export(response);
 	}
 
-	@GetMapping("TPL")
+	@GetMapping("/export/excel/TPL")
 	public void exportTplToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 
@@ -105,7 +120,7 @@ public class AlertsExportController {
 		String headerValue = "attachment; filename=TPL_Sheet.xlsx";
 		response.setHeader(headerKey, headerValue);
 
-		List<TPLDto> list = alertsExportService.getTPLAlerts();
+		List<TPLDto> list = homeService.getTPLAlerts();
 
 		System.out.println("TplIn ===== " + list);
 

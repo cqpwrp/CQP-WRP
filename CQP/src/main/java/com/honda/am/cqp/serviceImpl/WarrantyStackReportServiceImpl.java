@@ -1,5 +1,5 @@
 
-package com.honda.am.cqp.service.impl;
+package com.honda.am.cqp.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,9 +9,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.honda.am.cqp.dao.WarrantyStackReportRepository;
 import com.honda.am.cqp.dto.SupplierInfoDto;
 import com.honda.am.cqp.dto.WarrantyReportsDto;
-import com.honda.am.cqp.repository.WarrantyStackReportRepository;
 import com.honda.am.cqp.service.WarrantyStackReportService;
 
 @Service
